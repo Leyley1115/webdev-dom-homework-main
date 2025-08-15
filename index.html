@@ -9,40 +9,6 @@
   <body>
     <div class="container">
       <ul class="comments">
-        <li class="comment">
-          <div class="comment-header">
-            <div>Глеб Фокин</div>
-            <div>12.02.22 12:18</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Это будет первый комментарий на этой странице
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">3</span>
-              <button class="like-button"></button>
-            </div>
-          </div>
-        </li>
-        <li class="comment">
-          <div class="comment-header">
-            <div>Варвара Н.</div>
-            <div>13.02.22 19:22</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Мне нравится как оформлена эта страница! ❤
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">75</span>
-              <button class="like-button -active-like"></button>
-            </div>
-          </div>
-        </li>
       </ul>
       <div class="add-form">
         <input
@@ -61,11 +27,9 @@
         </div>
       </div>
     </div>
-  </body>
-
-  <style>
+     <style>
     .error{
-      background-color: rgb(90, 2, 2);
+      background-color: rgb(255, 124, 124);
     }
   </style>
 
@@ -75,10 +39,76 @@
     const name = document.querySelector(".add-form-name");
     const text = document.querySelector(".add-form-text");
 
+/////////////////////////2
+    let counter = 0;
+    const commentBox = [
+      {name: 'Глеб Фокин', data: '12.02.22 12:18', comment: 'Это будет первый комментарий на этой странице', likes: `${counter+3}`, likeActive: ""},
+      {name: 'Варвара Н.', data: '13.02.22 19:22', comment: 'Мне нравится как оформлена эта страница! ❤', likes: `${counter+75}`, likeActive: "-active-like"}
+    ]
+////////////////////
+
+const like = () => {
+  const likeButtons = document.querySelectorAll(".like-button");
+
+  for (const likeButton of likeButtons) {
+    likeButton.addEventListener("click", () => {
+      const index = likeButton.dataset.index;
+      const comment = commentBox[index];
+      const likesCounter = likeButton.parentElement.querySelector(".likes-counter");
+
+      if (comment.likeActive === "") {
+        comment.likes++;
+        comment.likeActive = "-active-like";
+        likeButton.classList.add("-active-like");
+
+      } else {
+        likeButton.classList.remove("-active-like");
+        comment.likeActive = "";
+        comment.likes--;
+      }
+
+      likesCounter.textContent = comment.likes;
+    });
+  }
+};
+
+
+const commentsRender = () => {
+    const commentsHTML = commentBox.map((commentOne, index) => {
+    return `<li class="comment">
+          <div class="comment-header">
+            <div>${commentOne.name}</div>
+            <div>${commentOne.data}</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">
+              ${commentOne.comment}
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">${commentOne.likes}</span>
+              <button class="like-button ${commentOne.likeActive}" data-index="${index}"></button>
+            </div>
+          </div>
+        </li>`
+    }).join("");
+
+  list.innerHTML = commentsHTML;
+
+  like();
+}
+commentsRender();
+
     add.addEventListener("click", ()=>{
       name.classList.remove("error");
+      text.classList.remove("error");
       if (name.value === ""){
-        name.classList.add("error")
+        name.classList.add("error");
+        return
+      }
+      if (text.value === ""){
+        text.classList.add("error");
         return
       }
 
@@ -86,30 +116,31 @@
         hour: 'numeric',
         minute: 'numeric'
       }
+      
       let now = new Date();
       now = now.toLocaleDateString('ru-RU') + " " + now.toLocaleTimeString('ru-RU', options);
 
       const oldHTML = list.innerHTML;
-      list.innerHTML = oldHTML + `<li class="comment">
-          <div class="comment-header">
-            <div>${name.value}</div>
-            <div>${now}</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              ${text.value}
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">0</span>
-              <button class="like-button"></button>
-            </div>
-          </div>
-        </li>`
+
+      let newComment = {
+        name: `${name.value}`, 
+        data: `${now}`, 
+        comment: `${text.value}`,
+        likes: `${counter}`,
+        likeActive: ""
+      }
+
+      commentBox.push(newComment)
+    
       text.value="";
       name.value="";
+
+      commentsRender();
     });
-    console.log("It works!");
+
+////////////////////////////////////////2
+
+
   </script>
+  </body>
 </html>
