@@ -39,13 +39,11 @@
     const name = document.querySelector(".add-form-name");
     const text = document.querySelector(".add-form-text");
 
-/////////////////////////2
-    let counter = 0;
-    const commentBox = [
-      {name: 'Глеб Фокин', data: '12.02.22 12:18', comment: 'Это будет первый комментарий на этой странице', likes: `${counter+3}`, likeActive: ""},
-      {name: 'Варвара Н.', data: '13.02.22 19:22', comment: 'Мне нравится как оформлена эта страница! ❤', likes: `${counter+75}`, likeActive: "-active-like"}
-    ]
-////////////////////
+  let counter = 0;
+  const commentBox = [
+    {name: 'Глеб Фокин', data: '12.02.22 12:18', comment: 'Это будет первый комментарий на этой странице', likes: `${counter+3}`, likeActive: ""},
+    {name: 'Варвара Н.', data: '13.02.22 19:22', comment: 'Мне нравится как оформлена эта страница! ❤', likes: `${counter+75}`, likeActive: "-active-like"}
+  ]
 
 const like = () => {
   const likeButtons = document.querySelectorAll(".like-button");
@@ -56,18 +54,17 @@ const like = () => {
       const comment = commentBox[index];
       const likesCounter = likeButton.parentElement.querySelector(".likes-counter");
 
-      if (comment.likeActive === "") {
-        comment.likes++;
-        comment.likeActive = "-active-like";
-        likeButton.classList.add("-active-like");
+    if (comment.likeActive === "") {
+      comment.likes++;
+      comment.likeActive = "-active-like";
 
-      } else {
-        likeButton.classList.remove("-active-like");
-        comment.likeActive = "";
-        comment.likes--;
-      }
+    } else {
+      comment.likes--;
+      comment.likeActive = "";
+    }
 
-      likesCounter.textContent = comment.likes;
+    likesCounter.textContent = comment.likes;
+    commentsRender();
     });
   }
 };
@@ -100,46 +97,43 @@ const commentsRender = () => {
 }
 commentsRender();
 
-    add.addEventListener("click", ()=>{
-      name.classList.remove("error");
-      text.classList.remove("error");
-      if (name.value === ""){
-        name.classList.add("error");
-        return
-      }
-      if (text.value === ""){
-        text.classList.add("error");
-        return
-      }
+add.addEventListener("click", ()=>{
+  name.classList.remove("error");
+  text.classList.remove("error");
+  if (name.value === ""){
+    name.classList.add("error");
+    return
+  }
+  if (text.value === ""){
+    text.classList.add("error");
+    return
+  }
 
-      let options = {
-        hour: 'numeric',
-        minute: 'numeric'
-      }
+  let options = {
+    hour: 'numeric',
+    minute: 'numeric'
+  }
       
-      let now = new Date();
-      now = now.toLocaleDateString('ru-RU') + " " + now.toLocaleTimeString('ru-RU', options);
+  let now = new Date();
+  now = now.toLocaleDateString('ru-RU') + " " + now.toLocaleTimeString('ru-RU', options);
 
-      const oldHTML = list.innerHTML;
+  const oldHTML = list.innerHTML;
 
-      let newComment = {
-        name: `${name.value}`, 
-        data: `${now}`, 
-        comment: `${text.value}`,
-        likes: `${counter}`,
-        likeActive: ""
-      }
+  let newComment = {
+    name: `${name.value}`, 
+    data: `${now}`, 
+    comment: `${text.value}`,
+    likes: `${counter}`,
+    likeActive: ""
+  }
 
-      commentBox.push(newComment)
+  commentBox.push(newComment)
     
-      text.value="";
-      name.value="";
+  text.value="";
+  name.value="";
 
-      commentsRender();
-    });
-
-////////////////////////////////////////2
-
+  commentsRender();
+});
 
   </script>
   </body>
