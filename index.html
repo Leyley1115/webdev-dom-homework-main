@@ -27,7 +27,8 @@
         </div>
       </div>
     </div>
-     <style>
+    
+  <style>
     .error{
       background-color: rgb(255, 124, 124);
     }
@@ -40,16 +41,20 @@
     const text = document.querySelector(".add-form-text");
 
   let counter = 0;
+  let addAnswer = "";
+  let newTextValue = [""];
+  let index = 0;
   const commentBox = [
-    {name: 'Глеб Фокин', data: '12.02.22 12:18', comment: 'Это будет первый комментарий на этой странице', likes: `${counter+3}`, likeActive: ""},
-    {name: 'Варвара Н.', data: '13.02.22 19:22', comment: 'Мне нравится как оформлена эта страница! ❤', likes: `${counter+75}`, likeActive: "-active-like"}
+    {name: 'Глеб Фокин', data: '12.02.22 12:18', comment: `Это будет первый комментарий на этой странице`, likes: `${counter+3}`, likeActive: ""},
+    {name: 'Варвара Н.', data: '13.02.22 19:22', comment: `Мне нравится как оформлена эта страница! ❤`, likes: `${counter+75}`, likeActive: "-active-like"}
   ]
 
 const like = () => {
   const likeButtons = document.querySelectorAll(".like-button");
 
   for (const likeButton of likeButtons) {
-    likeButton.addEventListener("click", () => {
+    likeButton.addEventListener("click", (event) => {
+      event.stopPropagation();
       const index = likeButton.dataset.index;
       const comment = commentBox[index];
       const likesCounter = likeButton.parentElement.querySelector(".likes-counter");
@@ -69,10 +74,58 @@ const like = () => {
   }
 };
 
+//////////функционал ответов
+
+function answer(){
+  const commAll = document.querySelectorAll(".comment");
+
+  for (const answerCom of commAll){
+    answerCom.addEventListener("click", () =>{
+    index = answerCom.dataset.answer;
+    const comment = commentBox[index];
+
+    comment.comment = comment.comment.replaceAll(`<i>`, "").replaceAll(`</i>`, "").replaceAll(`&#8220;`, "").replaceAll(`&#8221;`, "");
+    // comment.comment = comment.comment.replace(/<[^>]*>/g, "").replaceAll(`&#8220;`, "");
+    console.log(comment.comment);
+
+    text.value=`> ${comment.comment}
+
+    ${comment.name}, `.replaceAll(`<br>`, "");
+
+    newTextValue = [comment.comment, comment.name];
+    return newTextValue && index
+    })
+  }
+}
+
+const addAnswerFunc = () => {
+  text.addEventListener("input", (event) => {
+  addAnswer = event.target.value.replace(`${commentBox[index].comment.replaceAll(`<br>`, "")}`, "").replace(`${commentBox[index].name}`, "").replace(",", "").replace("     ", "").replace(">", "");
+  // console.log(addAnswer);
+  console.log(commentBox[index].comment);
+  });
+}
+addAnswerFunc();
+////////////
+
+// function answer(){
+//   const commAll = document.querySelectorAll(".comment");
+
+//   for (const answerCom of commAll){
+//     answerCom.addEventListener("click", (event) =>{
+//     const index = answerCom.dataset.answer;
+//     const comment = commentBox[index];
+
+//     text.value=`> ${comment.comment}
+
+//     ${comment.name}, `;
+//     })
+//   }
+// }
 
 const commentsRender = () => {
     const commentsHTML = commentBox.map((commentOne, index) => {
-    return `<li class="comment">
+    return `<li class="comment" data-answer="${index}">
           <div class="comment-header">
             <div>${commentOne.name}</div>
             <div>${commentOne.data}</div>
@@ -94,6 +147,7 @@ const commentsRender = () => {
   list.innerHTML = commentsHTML;
 
   like();
+  answer();
 }
 commentsRender();
 
@@ -122,18 +176,20 @@ add.addEventListener("click", ()=>{
   let newComment = {
     name: `${name.value}`, 
     data: `${now}`, 
-    comment: `${text.value}`,
+    comment: `${text.value}`.startsWith(">") ? `<i>&#8220;${newTextValue[0]}&#8221;</i><br><br>> ${newTextValue[1]}, `+`${addAnswer}` : `${text.value}`,
+    // comment: `${text.value}`,
     likes: `${counter}`,
     likeActive: ""
   }
 
   commentBox.push(newComment)
     
-  text.value="";
-  name.value="";
+  text.value = "";
+  name.value = "";
 
   commentsRender();
 });
+
 
   </script>
   </body>
