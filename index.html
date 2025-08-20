@@ -100,9 +100,7 @@ function answer(){
 
 const addAnswerFunc = () => {
   text.addEventListener("input", (event) => {
-  addAnswer = event.target.value.replace(`${commentBox[index].comment.replaceAll(`<br>`, "")}`, "").replace(`${commentBox[index].name}`, "").replace(",", "").replace("     ", "").replace(">", "");
-  // console.log(addAnswer);
-  console.log(commentBox[index].comment);
+    addAnswer = event.target.value.replace(`${commentBox[index].comment.replaceAll(`<br>`, "")}`, "").replace(`${commentBox[index].name}`, "").replace(",", "").replace("     ", "").replace(">", "");
   });
 }
 addAnswerFunc();
@@ -127,7 +125,7 @@ const commentsRender = () => {
     const commentsHTML = commentBox.map((commentOne, index) => {
     return `<li class="comment" data-answer="${index}">
           <div class="comment-header">
-            <div>${commentOne.name}</div>
+            <div>${commentOne.name.replaceAll("<", "&lt;").replaceAll(">","&gt;")}</div>
             <div>${commentOne.data}</div>
           </div>
           <div class="comment-body">
@@ -176,8 +174,9 @@ add.addEventListener("click", ()=>{
   let newComment = {
     name: `${name.value}`, 
     data: `${now}`, 
-    comment: `${text.value}`.startsWith(">") ? `<i>&#8220;${newTextValue[0]}&#8221;</i><br><br>> ${newTextValue[1]}, `+`${addAnswer}` : `${text.value}`,
+    comment: `${text.value}`.startsWith(">") ? `<i>&#8220;${newTextValue[0]}&#8221;</i><br><br>` + `> ${newTextValue[1].replaceAll("<", "&lt;").replaceAll(">","&gt;")}, `+`${addAnswer.replaceAll("<", "&lt;").replaceAll(">","&gt;")}` : `${text.value.replaceAll("<", "&lt;").replaceAll(">","&gt;")}`,
     // comment: `${text.value}`,
+    // .replaceAll("<", "&lt;").replaceAll(">","&gt;")
     likes: `${counter}`,
     likeActive: ""
   }
