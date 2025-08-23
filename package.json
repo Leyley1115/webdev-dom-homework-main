@@ -1,0 +1,26 @@
+{
+  "name": "webdev-dom-homework-main",
+  "version": "1.0.0",
+  "description": "https://glebkaf.github.io/webdev-dom-homework/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Leyley1115/webdev-dom-homework-main.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Leyley1115/webdev-dom-homework-main/issues"
+  },
+  "homepage": "https://github.com/Leyley1115/webdev-dom-homework-main#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "eslint": "^9.33.0",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2"
+  }
+}
