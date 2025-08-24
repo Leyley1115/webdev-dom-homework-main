@@ -11,13 +11,15 @@ export const like = () => {
       const comment = commentBox[index];
       const likesCounter = likeButton.parentElement.querySelector(".likes-counter");
 
-    if (comment.likeActive === "") {
+    if (comment.isLiked === false) {
       comment.likes++;
-      comment.likeActive = "-active-like";
-
+      comment.isLiked = true;
+      likeButton.classList.add("-active-like");
+      
     } else {
       comment.likes--;
-      comment.likeActive = "";
+      comment.isLiked = false;
+      likeButton.classList.remove("-active-like");
     }
 
     likesCounter.textContent = comment.likes;

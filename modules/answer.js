@@ -9,13 +9,15 @@ export function answer(){
     setIndex(index);
     const comment = commentBox[index];
 
-    comment.comment = comment.comment.replaceAll(`<i>`, "").replaceAll(`</i>`, "").replaceAll(`&#8220;`, "").replaceAll(`&#8221;`, "");
-
-    text.value=`> ${comment.comment}
-
-    ${comment.name}, `.replaceAll(`<br>`, "");
+    comment.text = comment.text
+      .replaceAll(`<i>`, "")
+      .replaceAll(`</i>`, "")
+      .replaceAll(`&#8220;`, "")
+      .replaceAll(`&#8221;`, "");
+    text.value=`> ${comment.text}
+    ${comment.author.name}, `.replaceAll(`<br>`, "");
   
-    return setnewTextValue([comment.comment, comment.name]) && setIndex(index)
+    return setnewTextValue([comment.text, comment.author.name]) && setIndex(index)
     })
   }
 }
@@ -23,8 +25,8 @@ export function answer(){
 export const addAnswerFunc = () => {
   text.addEventListener("input", (event) => {
     const addAnswer = event.target.value
-      .replace(`${commentBox[index].comment.replaceAll(`<br>`, "")}`, "")
-      .replace(`${commentBox[index].name}`, "")
+      .replace(`${commentBox[index].text.replaceAll(`<br>`, "")}`, "")
+      .replace(`${commentBox[index].author.name}`, "")
       .replace(",", "")
       .replace("     ", "")
       .replace(">", "");
