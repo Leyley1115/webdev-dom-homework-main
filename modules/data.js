@@ -19,7 +19,7 @@ export function setnewTextValue(value){newTextValue = value};
 export let commentBox = [];
 
 export const updateComments = (newComment) => {
-  commentBox = newComment;
+  return commentBox = newComment;
 }
   
-add.addEventListener("click", () =>{addComment()});
+add.addEventListener("click", () => {addComment()});
