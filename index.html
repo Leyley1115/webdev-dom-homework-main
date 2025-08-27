@@ -32,6 +32,25 @@
   .error{
     background-color: rgb(255, 124, 124);
   }
+
+  @keyframes rotating {
+   from {
+      transform: rotate(0deg);
+   }
+   25% {
+      transform: rotate(30deg);;
+   }
+   75% {
+      transform: rotate(-30deg);;
+   }
+   to {
+      transform: rotate(0deg);
+   }
+}
+
+.-loading-like {
+   animation: rotating 1s linear infinite;
+}
 </style>
 
 <script type="module" src="./index.js"></script>
