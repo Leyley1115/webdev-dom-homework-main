@@ -1,7 +1,8 @@
-import { now, text, name, list, counter, newTextValue, addAnswer, updateComments } from "./data.js";
-import { commentsRender } from "../index.js";
+import { now, text, name, counter, newTextValue, addAnswer, textForm, container } from "./data.js";
+import { fetchGET } from "./fetch.js";
 
-export function addComment() {name.classList.remove("error");
+export function addComment() {
+  name.classList.remove("error");
   text.classList.remove("error");
   if (name.value === ""){
     name.classList.add("error");
@@ -12,8 +13,6 @@ export function addComment() {name.classList.remove("error");
     return
   }
 
-  const oldHTML = list.innerHTML;
-
   let newComment = {
     name: `${name.value}`, 
     date: now.toISOString(),
@@ -23,19 +22,22 @@ export function addComment() {name.classList.remove("error");
       ? `<i>&#8220;${newTextValue[0]}&#8221;</i><br><br>` + `> ${newTextValue[1].replaceAll("<", "&lt;").replaceAll(">","&gt;")}, `+`${addAnswer.replaceAll("<", "&lt;").replaceAll(">","&gt;")}` 
       : `${text.value.replaceAll("<", "&lt;").replaceAll(">","&gt;")}`
   }
-    
+
+  textForm.style.display = "none";
+  const newDiv = document.createElement("ul");
+  newDiv.textContent = "Комментарий добавляется...";
+  container.appendChild(newDiv);
+
   fetch("https://wedev-api.sky.pro/api/v1/pris-sofia/comments", {
   method: 'POST',
   body: JSON.stringify(newComment),
   })
-    .then((response) => response.json())
-    .then(() => {
-      return fetch("https://wedev-api.sky.pro/api/v1/pris-sofia/comments");
+  .then(() => {
+      return fetchGET();
   })
-    .then((response) => response.json())
-    .then((data) => {
-      updateComments(data.comments);
-      commentsRender();
+  .then(() => {
+    newDiv.style.display = "none";
+    textForm.style.display = "";
   })
 
   text.value = "";
