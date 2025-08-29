@@ -31,15 +31,37 @@ export function addComment() {
   fetch("https://wedev-api.sky.pro/api/v1/pris-sofia/comments", {
   method: 'POST',
   body: JSON.stringify(newComment),
+        forceError: true
+  })
+  .then((response) => {
+    if (response.status === 201){
+      return response.json();
+    } else {
+      if (response.status === 400){
+        throw new Error ('Имя или текст короче 3 символов');
+      }
+    }
   })
   .then(() => {
-      return fetchGET();
+    return fetchGET();
   })
-  .then(() => {
+  .catch((error) => {
+  // debugger
+  if (error instanceof TypeError) {
+  alert('Сервер сломался, попробуй позже');
+  } else {
+    alert(error.message.replace(`Error:`));
+  }
+    // if (error.message.startsWith('TypeError:')){
+    //   return alert('Проблемы с интернет-подключением');
+    // } else{
+    // return  alert(error);
+    // }
+  })
+  .finally(() => {
     newDiv.style.display = "none";
     textForm.style.display = "";
   })
-
   text.value = "";
   name.value = "";
 }
