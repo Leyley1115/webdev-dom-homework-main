@@ -1,13 +1,11 @@
-import { commentBox, list, updateComments } from "./modules/data.js";
+import { commentBox, list, add } from "./modules/data.js";
 import { like } from "./modules/like.js";
 import { answer, addAnswerFunc } from "./modules/answer.js";
+import { fetchGET } from "./modules/fetch.js";
+import { addComment } from "./modules/newComment.js";
 
-fetch ("https://wedev-api.sky.pro/api/v1/pris-sofia/comments", {
-  method: "GET"
-})
-.then((response) => {return response.json()})
-.then((data) => {updateComments(data.comments)})
-.then(() => {return commentsRender()});
+fetchGET();
+list.innerHTML=`Пожалуйста, подождите. Комментарии загружаются...`;
 
 export const commentsRender = () => {
   
@@ -42,8 +40,11 @@ export const commentsRender = () => {
 
   list.innerHTML = commentsHTML;
 
+ 
   like();
   answer();
 }
 
 addAnswerFunc();
+
+add.addEventListener("click", () => {addComment()});

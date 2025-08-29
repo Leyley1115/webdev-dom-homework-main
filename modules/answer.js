@@ -1,4 +1,4 @@
-import { text, index, commentBox, setAddAnswer, setIndex, setnewTextValue } from "./data.js";
+import { text, index, commentBox, setAddAnswer, setIndex, setnewTextValue, newTextValue } from "./data.js";
 
 export function answer(){
   const commAll = document.querySelectorAll(".comment");

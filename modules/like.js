@@ -1,15 +1,18 @@
 import { commentBox } from "./data.js";
 import { commentsRender } from "../index.js";
+import { delay } from "./likeLoad.js";
 
 export const like = () => {
   const likeButtons = document.querySelectorAll(".like-button");
 
   for (const likeButton of likeButtons) {
-    likeButton.addEventListener("click", (event) => {
+    likeButton.addEventListener("click", async (event) => {
       event.stopPropagation();
       const index = likeButton.dataset.index;
       const comment = commentBox[index];
-      const likesCounter = likeButton.parentElement.querySelector(".likes-counter");
+      likeButton.classList.add("-loading-like");
+      await delay(1000);
+      likeButton.classList.remove("-loading-like");
 
     if (comment.isLiked === false) {
       comment.likes++;
@@ -22,7 +25,6 @@ export const like = () => {
       likeButton.classList.remove("-active-like");
     }
 
-    likesCounter.textContent = comment.likes;
     commentsRender();
     });
   }
