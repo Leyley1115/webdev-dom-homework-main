@@ -35,6 +35,8 @@ export function addComment() {
   })
   .then((response) => {
     if (response.status === 201){
+      text.value = "";
+      name.value = "";
       return response.json();
     } else {
       if (response.status === 400){
@@ -62,6 +64,4 @@ export function addComment() {
     newDiv.style.display = "none";
     textForm.style.display = "";
   })
-  text.value = "";
-  name.value = "";
 }
