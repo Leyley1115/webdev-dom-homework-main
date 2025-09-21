@@ -1,6 +1,5 @@
 import { now, text, name, counter, newTextValue, addAnswer, textForm, container } from "./data.js";
 import { host, token } from "./api.js";
-// import { commentsRender } from "../index.js";
 
 export function addComment() {
   name.classList.remove("error");

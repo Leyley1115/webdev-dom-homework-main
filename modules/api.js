@@ -1,5 +1,6 @@
-import { updateComments, list, textForm } from "./data.js";
+import { updateComments, list, textForm, name } from "./data.js";
 import { commentsRender } from "../index.js";
+
 
 export const host = 'https://wedev-api.sky.pro/api/v2/pris-sofia/comments';
 export let token = '';
@@ -19,10 +20,6 @@ export const fetchGET = () => {
     })
     .then((data) => {
         console.log(data);
-        // const app = document.querySelector(".app");
-        // list.style.display = 'flex';
-        // textForm.style.display = 'flex';
-        // app.style.display = 'none';
         updateComments(data.comments);
         commentsRender();
         return data
@@ -46,7 +43,9 @@ export function login ({login, password}){
         }
     })
     .then((data) => {
-        console.log(data.user.token)
+        console.log(data);
+        name.value = data.user.name; 
+        name.disabled = true; 
         return updateToken(data.user.token)
     })
     .then(() =>{

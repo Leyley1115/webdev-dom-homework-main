@@ -1,5 +1,3 @@
-// import { renderLogin } from "./renderLogin";
-
 export const renderReg = () => {
     const app = document.querySelector(".app");
 
