@@ -1,15 +1,16 @@
-import { updateComments } from "./data.js";
-import { commentsRender } from "../index.js";
+// import { token } from "./api.js"
 
-export const fetchGET = () => {
-    return fetch ("https://wedev-api.sky.pro/api/v1/pris-sofia/comments", {
-     method: "GET"
-    })
-    .then((response) => {
-        return response.json()
-    })
-    .then((data) => {
-        updateComments(data.comments);
-        commentsRender()
-    })
-}
+// export const fetchID = () => {
+//     return fetch ('https://wedev-api.sky.pro/api/user', {
+//         method: "GET",
+//         headers: {
+//             Authorization: `Bearer ${token}`
+//         }
+//     })
+//     .then((result) =>{
+//         return result.json()
+//     })
+//     .then((data) =>{
+//         console.log(data)
+//     })
+// }

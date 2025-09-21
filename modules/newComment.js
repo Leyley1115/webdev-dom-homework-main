@@ -1,5 +1,6 @@
 import { now, text, name, counter, newTextValue, addAnswer, textForm, container } from "./data.js";
-import { fetchGET } from "./fetch.js";
+import { host, token } from "./api.js";
+// import { commentsRender } from "../index.js";
 
 export function addComment() {
   name.classList.remove("error");
@@ -28,10 +29,13 @@ export function addComment() {
   newDiv.textContent = "Комментарий добавляется...";
   container.appendChild(newDiv);
 
-  fetch("https://wedev-api.sky.pro/api/v1/pris-sofia/comments", {
+  fetch(host, {
   method: 'POST',
   body: JSON.stringify(newComment),
-        forceError: true
+        forceError: true,
+  headers: {
+          Authorization: `Bearer ${token}`
+      }
   })
   .then((response) => {
     if (response.status === 201){
@@ -42,23 +46,17 @@ export function addComment() {
       if (response.status === 400){
         throw new Error ('Имя или текст короче 3 символов');
       }
+      if (response.status === 401){
+        throw new Error ('Пройдите авторизацию');
+      }
     }
   })
-  .then(() => {
-    return fetchGET();
-  })
   .catch((error) => {
-  // debugger
   if (error instanceof TypeError) {
   alert('Сервер сломался, попробуй позже');
   } else {
     alert(error.message.replace(`Error:`));
   }
-    // if (error.message.startsWith('TypeError:')){
-    //   return alert('Проблемы с интернет-подключением');
-    // } else{
-    // return  alert(error);
-    // }
   })
   .finally(() => {
     newDiv.style.display = "none";
