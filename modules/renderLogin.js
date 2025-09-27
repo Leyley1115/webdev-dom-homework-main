@@ -8,8 +8,8 @@ export const renderLogin = () => {
     app.classList.add('add-form');
     app.innerHTML = `
     <h2>Войти в систему</h2>
-    <label><input type="text" class="input-form" placeholder="Логин" id="log-id"></label><br>
-    <label><input type="text" class="input-form" placeholder="Пароль" id ="password-id"></label><br><br>
+    <label><input type="text" class="input-form" placeholder="Логин" id="log-id"></label><br><br>
+    <label><input type="text" class="input-form" placeholder="Пароль" id ="password-id"></label><br>
     <button id="log" class="button-form">Войти</button>
     <button id="reg" class="button-form">Зарегистрироваться</button>
     `

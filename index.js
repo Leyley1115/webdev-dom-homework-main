@@ -49,6 +49,8 @@ export const commentsRender = () => {
 
 const authoForm = () => {
   const app = document.querySelector(".app");
+  const form = document.querySelector(".add-form");
+  form.style.display = 'none';
   app.style.padding = '0 0 0 0';
   
   app.innerHTML=`
